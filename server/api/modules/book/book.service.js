@@ -1,50 +1,57 @@
-const repository = require('./book.repository');
-// const find = async function(query){
-//     return await repository.find(query);
+const repository = require('./book.repository.js');
+// const authService = require('../auth/auth.service');
+
+// const find = async function (user, query) {
+//   // Authorize
+//   let auth = authService.authorization(user, ['admin', 'user']);
+//   if (auth) {
+//     return await repository.find(query);  
+//   } else {
+//     throw new Error("Unauthorized");
+//   }
 // }
+
 const find = async function (query) {
-    const data = await repository.find(query);
-    const total = await repository.count(query);
-    return {
-      data: data,
-      total: total,
-    }
+  return await repository.find(query);
+}
+
+const findById = async function (id) {
+  return await repository.findById(id);
+}
+
+const create = async function (data) {
+  // Validate
+  if (!data || !data.title || !data.author) {
+    throw new Error("Missing input!");
   }
 
-const findById = async function(id){
-    return await repository.findById(id);
+  return await repository.create(data);
 }
 
-const create = async function(data){
-    if(!data || !data.title || !data.author){
-        throw new error("missing input");
-    }
-    return await repository.create(data);
+const update = async function (id, data) {
+  // Validate
+  const existedRecord = await repository.findById(id);
+  if (!existedRecord) {
+    throw new Error("Entity not found");
+  }
+
+  return await repository.update(id, data);
 }
 
-const update = async function(id,data){
-    const existed = await repository.findById(id);
-    if(!existed){
-        throw new Error("entity not found");
-    }
-    return await repository.update(id,data);
+const deleteOne = async function (id) {
+  // Validate
+  const existedRecord = await repository.findById(id);
+  if (!existedRecord) {
+    throw new Error("Entity not found");
+  }
+
+  return await repository.delete(id);
 }
 
-const deleteOne = async function(id){
-    const existed = await repository.findById(id);
-    if(!existed){
-        throw new Error("entity not found");
-    }
-    return await repository.delete(id);
-}
-// const deleteOne = async function(){
-//     return await repository.delete();
-// }
 module.exports = {
-    find:find,
-    findById:findById,
-    create:create,
-    update:update,
-    delete:deleteOne,
-}
-
+  find: find,
+  findById: findById,
+  create: create,
+  update: update,
+  delete: deleteOne,
+};
