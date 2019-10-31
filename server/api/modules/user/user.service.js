@@ -1,6 +1,13 @@
 const repository = require('./user.repository');
 
 const find = async function (query) {
+  // check authentication, check authorization
+  
+  // validate query
+  
+  // do business logic
+
+  // persist db
   const data = await repository.find(query);
   const total = await repository.count(query);
   return {
