@@ -10,7 +10,7 @@ const cors = require('cors');
 // const authRouter = require('./api/modules/auth/auth.router');
 
 mongoose.connect(config.mongoConnectionString);
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 6969;
 
 const app = express();
 app.use(cors());
